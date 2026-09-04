@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Work Permit Integration | Inês Lima</title>
+
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <main>
+
+        <!-- PROJECT HERO -->
+        <section class="section project-case-hero">
+
+            <a href="../index.html#projects" class="text-link">
+                ← Back to Projects
+            </a>
+
+            <div class="eyebrow">SAP CPI CASE STUDY</div>
+
+            <h1>Work Permit Integration</h1>
+
+            <p>
+                Automated integration of employee Work Permit data and
+                documents between an external immigration platform and
+                SAP SuccessFactors.
+            </p>
+
+            <div class="project-tags">
+                <span>SAP CPI</span>
+                <span>SAP SuccessFactors</span>
+                <span>Work Permit</span>
+                <span>REST APIs</span>
+                <span>OData</span>
+                <span>Data Store</span>
+            </div>
+
+        </section>
+
+
+        <!-- OVERVIEW -->
+        <section class="section">
+
+            <div class="eyebrow">01. Overview</div>
+
+            <h2>Project Overview</h2>
+
+            <p>
+                This project involved the development of an SAP CPI integration
+                to automate the synchronization of employee Work Permit
+                information and associated documents between an external
+                immigration platform and SAP SuccessFactors.
+            </p>
+
+            <p>
+                The integration is event-driven. The source platform triggers
+                the process by sending the identifiers required to initiate the
+                integration. SAP CPI then orchestrates the retrieval of the
+                Work Permit data and associated document, processes and
+                transforms the information, and synchronizes it with
+                SAP SuccessFactors.
+            </p>
+
+        </section>
+
+
+        <!-- ARCHITECTURE -->
+        <section class="section">
+
+            <div class="eyebrow">02. Architecture</div>
+
+            <h2>Integration Architecture</h2>
+
+            <p>
+                SAP CPI acts as the integration and orchestration layer,
+                coordinating the communication between the source platform
+                and SAP SuccessFactors through REST and OData services.
+            </p>
+
+            <div class="architecture-flow">
+
+                <div class="architecture-box">
+                    External Immigration Platform
+                    <small>Event / Webhook</small>
+                </div>
+
+                <div class="architecture-arrow">↓</div>
+
+                <div class="architecture-box">
+                    SAP CPI
+                    <small>
+                        Validation · API Orchestration · Transformation
+                    </small>
+                </div>
+
+                <div class="architecture-arrow">↓</div>
+
+                <div class="architecture-box">
+                    SAP SuccessFactors
+                    <small>OData Integration</small>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FLOW 1 -->
+        <section class="section">
+
+            <div class="eyebrow">03. Work Permit Processing</div>
+
+            <h2>Event-Driven Processing</h2>
+
+            <p>
+                The first integration flow is triggered when a Work Permit
+                process reaches the required stage in the source platform.
+            </p>
+
+            <p>
+                The initial event contains only the identifiers required to
+                start the integration. SAP CPI uses these identifiers to
+                retrieve the additional Work Permit information and
+                associated document through API calls.
+            </p>
+
+            <p>
+                The retrieved information is then validated, transformed and
+                prepared for synchronization with SAP SuccessFactors.
+            </p>
+
+            <div class="flow-steps">
+
+                <div>Receive Event</div>
+                <span>→</span>
+
+                <div>Validate</div>
+                <span>→</span>
+
+                <div>Retrieve Work Permit Data</div>
+                <span>→</span>
+
+                <div>Retrieve Document</div>
+                <span>→</span>
+
+                <div>Transform</div>
+                <span>→</span>
+
+                <div>SuccessFactors</div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DOCUMENT PROCESSING -->
+        <section class="section">
+
+            <div class="eyebrow">04. Document Processing</div>
+
+            <h2>Work Permit Document Handling</h2>
+
+            <p>
+                In addition to the Work Permit data, the integration retrieves
+                the corresponding digital document.
+            </p>
+
+            <p>
+                SAP CPI processes the document and associates it with the
+                Work Permit information before completing the synchronization
+                with SAP SuccessFactors.
+            </p>
+
+        </section>
+
+
+        <!-- CHALLENGE -->
+        <section class="section">
+
+            <div class="eyebrow">05. Challenge & Solution</div>
+
+            <h2>Building a Resilient Integration</h2>
+
+            <div class="challenge-grid">
+
+                <article>
+                    <h3>Challenge</h3>
+
+                    <p>
+                        The integration could be triggered before the employee
+                        information required to complete the Work Permit
+                        synchronization was available in SAP SuccessFactors.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Solution</h3>
+
+                    <p>
+                        A persistence and retry mechanism was implemented using
+                        SAP CPI Data Store. Transactions that cannot yet be
+                        completed are temporarily persisted instead of failing
+                        permanently.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- RETRY FLOW -->
+        <section class="section">
+
+            <div class="eyebrow">06. Reprocessing</div>
+
+            <h2>Automated Retry Flow</h2>
+
+            <p>
+                A second SAP CPI integration flow is responsible for managing
+                pending transactions.
+            </p>
+
+            <p>
+                It periodically retrieves stored records and verifies whether
+                the information required to continue processing has become
+                available.
+            </p>
+
+            <p>
+                Once the required employee information is available, the
+                Work Permit synchronization continues automatically.
+                Successfully processed transactions are then removed from
+                the pending store.
+            </p>
+
+        </section>
+
+
+        <!-- TECHNICAL FEATURES -->
+        <section class="section">
+
+            <div class="eyebrow">07. Technical Highlights</div>
+
+            <h2>Key Technical Features</h2>
+
+            <div class="value-grid">
+
+                <article>
+                    <h3>API Orchestration</h3>
+
+                    <p>
+                        Coordination of multiple REST API calls to retrieve
+                        the Work Permit information required for processing.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Data Transformation</h3>
+
+                    <p>
+                        Transformation and mapping of Work Permit data into
+                        structures compatible with SAP SuccessFactors.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Document Handling</h3>
+
+                    <p>
+                        Retrieval and processing of Work Permit documents as
+                        part of the employee data synchronization process.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Persistence & Retry</h3>
+
+                    <p>
+                        SAP CPI Data Store capabilities used to safely manage
+                        transactions that require later reprocessing.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTRIBUTION -->
+        <section class="section">
+
+            <div class="eyebrow">08. My Contribution</div>
+
+            <h2>What I Worked On</h2>
+
+            <ul class="project-contribution-list">
+                <li>Development of SAP CPI integration flows</li>
+                <li>Work Permit integration with SAP SuccessFactors</li>
+                <li>REST API integration and orchestration</li>
+                <li>SAP SuccessFactors OData integration</li>
+                <li>Data mapping and transformation</li>
+                <li>Work Permit document processing</li>
+                <li>Data Store and retry logic</li>
+                <li>Testing and troubleshooting</li>
+            </ul>
+
+        </section>
+
+
+        <!-- TECHNOLOGIES -->
+        <section class="section">
+
+            <div class="eyebrow">09. Technologies</div>
+
+            <h2>Technology Stack</h2>
+
+            <div class="project-tags">
+                <span>SAP Integration Suite</span>
+                <span>Cloud Integration</span>
+                <span>SAP SuccessFactors</span>
+                <span>Work Permit</span>
+                <span>REST APIs</span>
+                <span>OData</span>
+                <span>Data Store</span>
+            </div>
+
+        </section>
+
+
+        <!-- BACK -->
+        <section class="section">
+
+            <a href="../index.html#projects" class="text-link">
+                ← Back to Projects
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

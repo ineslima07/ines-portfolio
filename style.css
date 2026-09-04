@@ -170,6 +170,8 @@ text-decoration:none}
     object-fit: contain;
     object-position: center;
     display: block;
+    transform: scale(1.4) translateY(-25px);
+    transform-origin: center;
 }
 
 .portrait-placeholder {

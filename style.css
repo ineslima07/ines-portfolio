@@ -686,6 +686,7 @@ transform:none}
   .hero-actions {
     align-items:flex-start;
   flex-direction:column}
+  
 
   .stats {
     grid-template-columns:1fr;
@@ -712,5 +713,11 @@ transform:none}
 
   footer {
   padding:30px 20px}
-
+}
+.project-case-hero ~ .section h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin: 14px 0 24px;
 }

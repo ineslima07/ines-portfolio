@@ -150,13 +150,13 @@ text-decoration:none}
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: translateY(-50px);
+    transform: translateY(-100px);
 }
 
 .portrait-card {
     position: relative;
-    width: min(500px, 90vw);
-    height: 600px;
+    width: min(600px, 90vw);
+    height: 700px;
     background: transparent;
     border: none;
     border-radius: 0;

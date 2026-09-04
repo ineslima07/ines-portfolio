@@ -99,7 +99,7 @@ padding-top:100px}
 .hero h1 {
   font-family:"Space Grotesk",sans-serif;
   font-size:clamp(3.5rem,7vw,7rem);
-  line-height:.93;
+  line-height:1.05;
   margin:22px 0 12px;
 letter-spacing:-.055em}
 

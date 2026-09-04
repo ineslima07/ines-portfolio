@@ -242,10 +242,69 @@
         </section>
 
 
+        <!-- DUPLICATE PREVENTION -->
+        <section class="section">
+
+            <div class="eyebrow">07. Duplicate Prevention</div>
+
+            <h2>Idempotent Processing</h2>
+
+            <p>
+                The integration was designed to safely handle repeated events
+                and partial processing failures without creating duplicate
+                records in SAP SuccessFactors.
+            </p>
+
+            <p>
+                Before performing write operations, SAP CPI checks the target
+                system to determine whether the corresponding Work Permit
+                information and document have already been processed.
+            </p>
+
+            <p>
+                Based on the current state of the transaction, the integration
+                decides whether to stop processing, continue only with the
+                missing step, or execute the complete synchronization.
+            </p>
+
+            <div class="challenge-grid">
+
+                <article>
+                    <h3>Already Processed</h3>
+
+                    <p>
+                        If both the Work Permit information and its associated
+                        document already exist, no additional processing is
+                        required and the transaction is completed.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Partially Processed</h3>
+
+                    <p>
+                        If a previous execution completed only part of the
+                        process, SAP CPI continues from the missing step
+                        instead of repeating operations that were already
+                        successfully completed.
+                    </p>
+                </article>
+
+            </div>
+
+            <p>
+                This approach prevents duplicate documents and unnecessary
+                write operations while allowing the integration to recover
+                safely from partial failures and repeated source events.
+            </p>
+
+        </section>
+
+
         <!-- TECHNICAL FEATURES -->
         <section class="section">
 
-            <div class="eyebrow">07. Technical Highlights</div>
+            <div class="eyebrow">08. Technical Highlights</div>
 
             <h2>Key Technical Features</h2>
 
@@ -287,9 +346,20 @@
                     </p>
                 </article>
 
+                <article>
+                    <h3>Idempotent Processing</h3>
+
+                    <p>
+                        Validation of existing target records before write
+                        operations to safely handle repeated events and
+                        partial processing scenarios.
+                    </p>
+                </article>
+
             </div>
 
         </section>
+
 
         <!-- TECHNOLOGIES -->
         <section class="section">

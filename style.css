@@ -104,9 +104,10 @@ padding-top:100px}
 letter-spacing:-.055em}
 
 .gradient-text {
-  background:linear-gradient(90deg,#43e7a2,#36bff4,#8b5cf6);
-  -webkit-background-clip:text;
-color:transparent}
+    background: none;
+    -webkit-background-clip: initial;
+    color: #3be4a0;
+}
 
 .hero h2 {
   font-size:clamp(1.3rem,2vw,2rem);

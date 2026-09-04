@@ -150,13 +150,13 @@ text-decoration:none}
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: translateY(-100px);
+    transform: translateY(-150px);
 }
 
 .portrait-card {
     position: relative;
-    width: min(600px, 90vw);
-    height: 700px;
+    width: min(500px, 90vw);
+    height: 600px;
     background: transparent;
     border: none;
     border-radius: 0;
@@ -170,7 +170,7 @@ text-decoration:none}
     object-fit: contain;
     object-position: center;
     display: block;
-    transform: scale(1.4) translateY(-25px);
+    transform: scale(1.15) translateY(-25px);
     transform-origin: center;
 }
 

@@ -108,6 +108,9 @@ padding-top:100px}
     background: none;
     -webkit-background-clip: initial;
     color: #3be4a0;
+    display: inline-block;
+    position: relative;
+    top: 12px;
 }
 
 .hero h2 {

@@ -669,19 +669,22 @@ transform:none}
 
 @media(max-width:650px) {
   .section {
-  padding:70px 20px}
+    padding:70px 20px}
 
   .site-header {
-  padding:15px 20px}
+    padding:15px 20px}
 
   .hero {
-  padding-top:65px}
+    padding-top:65px}
 
   .hero h1 {
-  font-size:3.4rem}
+    font-size:3.4rem}
+
+  .hero-visual {
+    display:none}
 
   .tech-grid {
-  grid-template-columns:repeat(2,1fr)}
+    grid-template-columns:repeat(2,1fr)}
 
   .hero-actions {
     align-items:flex-start;

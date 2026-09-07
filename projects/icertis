@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contract & Agreement Automation | Inês Lima</title>
+
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <main>
+
+        <!-- PROJECT HERO -->
+        <section class="section project-case-hero">
+
+            <a href="../index.html#projects" class="text-link">
+                ← Back to Projects
+            </a>
+
+            <div class="eyebrow">SAP CPI CASE STUDY</div>
+
+            <h1>Contract & Agreement Automation</h1>
+
+            <p>
+                Complex SAP CPI integration between SAP SuccessFactors,
+                Azure Service Bus and Icertis to automate the creation,
+                processing and lifecycle management of multiple employee
+                agreements and contractual addendums.
+            </p>
+
+            <div class="project-tags">
+                <span>SAP CPI</span>
+                <span>SAP SuccessFactors</span>
+                <span>Azure Service Bus</span>
+                <span>Icertis</span>
+                <span>OpenText</span>
+                <span>REST APIs</span>
+                <span>OData</span>
+                <span>Data Store</span>
+            </div>
+
+        </section>
+
+
+        <!-- OVERVIEW -->
+        <section class="section">
+
+            <div class="eyebrow">01. Overview</div>
+
+            <h2>Project Overview</h2>
+
+            <p>
+                This project involved the development of a complex SAP CPI
+                integration between SAP SuccessFactors, Azure Service Bus
+                and Icertis to automate employee agreement and contractual
+                addendum processes.
+            </p>
+
+            <p>
+                The solution supports more than 10 different agreement and
+                addendum types, each with its own business rules, data
+                requirements, document structure and variables.
+            </p>
+
+            <p>
+                SAP CPI acts as the central orchestration layer, coordinating
+                SuccessFactors employee and workflow data, asynchronous
+                messages from Azure Service Bus and agreement processing
+                in Icertis.
+            </p>
+
+        </section>
+
+
+        <!-- ARCHITECTURE -->
+        <section class="section">
+
+            <div class="eyebrow">02. Architecture</div>
+
+            <h2>Integration Architecture</h2>
+
+            <p>
+                The solution connects SAP SuccessFactors, SAP CPI,
+                Azure Service Bus, Icertis and OpenText across different
+                stages of the agreement lifecycle.
+            </p>
+
+            <div class="architecture-flow">
+
+                <div class="architecture-box">
+                    SAP SuccessFactors
+                    <small>Employee Data · Workflow</small>
+                </div>
+
+                <div class="architecture-arrow">↓</div>
+
+                <div class="architecture-box">
+                    SAP CPI
+                    <small>Orchestration · Validation · Mapping · Business Logic</small>
+                </div>
+
+                <div class="architecture-arrow">↓</div>
+
+                <div class="architecture-box">
+                    Icertis
+                    <small>Agreement Creation & Management</small>
+                </div>
+
+                <div class="architecture-arrow">↓</div>
+
+                <div class="architecture-box">
+                    Azure Service Bus
+                    <small>Asynchronous Agreement Status Messages</small>
+                </div>
+
+                <div class="architecture-arrow">↓</div>
+
+                <div class="architecture-box">
+                    SAP SuccessFactors / OpenText
+                    <small>Workflow & Document Processing</small>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AGREEMENT TYPES -->
+        <section class="section">
+
+            <div class="eyebrow">03. Agreement Automation</div>
+
+            <h2>Multiple Agreement & Addendum Types</h2>
+
+            <p>
+                One of the main challenges of the integration was supporting
+                more than 10 different agreement and contractual addendum types
+                within the same integration landscape.
+            </p>
+
+            <p>
+                Each agreement type has its own business rules, structures,
+                required variables and data requirements.
+            </p>
+
+            <p>
+                SAP CPI applies the appropriate processing logic based on the
+                agreement type and prepares the corresponding data required
+                for agreement creation in Icertis.
+            </p>
+
+        </section>
+
+
+        <!-- FLOW 1 -->
+        <section class="section">
+
+            <div class="eyebrow">04. Agreement Initialization</div>
+
+            <h2>SuccessFactors → CPI → Icertis</h2>
+
+            <p>
+                The first integration flow periodically processes eligible
+                SuccessFactors workflows and retrieves the employee, job
+                and workflow information required for agreement creation.
+            </p>
+
+            <p>
+                SAP CPI orchestrates the required SuccessFactors OData calls,
+                applies the business logic associated with the corresponding
+                agreement type and builds the agreement initialization payload.
+            </p>
+
+            <p>
+                The request is then sent to Icertis to create the agreement.
+                Once created, the agreement identifier returned by Icertis
+                is associated with the corresponding SuccessFactors process
+                so that the agreement can be tracked throughout its lifecycle.
+            </p>
+
+            <div class="process-line">
+                SuccessFactors → SAP CPI → Retrieve Employee Data → Apply Agreement Logic → Create Agreement → Icertis
+            </div>
+
+        </section>
+
+
+        <!-- AZURE SERVICE BUS -->
+        <section class="section">
+
+            <div class="eyebrow">05. Asynchronous Processing</div>
+
+            <h2>Azure Service Bus Integration</h2>
+
+            <p>
+                Azure Service Bus Queues are used to support asynchronous
+                communication between the agreement process and SAP CPI.
+            </p>
+
+            <p>
+                SAP CPI consumes messages from Azure Service Bus to determine
+                the outcome of an agreement and trigger the corresponding
+                downstream processing.
+            </p>
+
+            <p>
+                Depending on the received status, SAP CPI determines whether
+                the related SuccessFactors workflow should be canceled or
+                allowed to continue to its next step.
+            </p>
+
+        </section>
+
+
+        <!-- FLOW 2 -->
+        <section class="section">
+
+            <div class="eyebrow">06. Agreement Execution</div>
+
+            <h2>Azure Service Bus → CPI → SuccessFactors</h2>
+
+            <p>
+                The second integration flow is triggered by messages received
+                through Azure Service Bus.
+            </p>
+
+            <p>
+                These messages provide SAP CPI with the agreement processing
+                result and determine how the corresponding SuccessFactors
+                workflow should continue.
+            </p>
+
+            <div class="challenge-grid">
+
+                <article>
+                    <h3>Agreement Canceled</h3>
+
+                    <p>
+                        When a cancellation status is received, SAP CPI applies
+                        the corresponding processing logic and updates the
+                        related SuccessFactors process accordingly.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Agreement Approved</h3>
+
+                    <p>
+                        When the agreement is approved or executed, SAP CPI
+                        processes the finalized agreement information and
+                        allows the corresponding SuccessFactors workflow
+                        to continue to its next step.
+                    </p>
+                </article>
+
+            </div>
+
+            <div class="process-line">
+                Azure Service Bus → SAP CPI → Evaluate Status → Cancel Process / Continue Workflow
+            </div>
+
+        </section>
+
+
+        <!-- DOCUMENT PROCESSING -->
+        <section class="section">
+
+            <div class="eyebrow">07. Document Processing</div>
+
+            <h2>Agreement Document Handling</h2>
+
+            <p>
+                As part of the agreement completion process, SAP CPI retrieves
+                and processes the finalized agreement document.
+            </p>
+
+            <p>
+                The document is stored in SAP SuccessFactors Employee Central
+                together with the required agreement information.
+            </p>
+
+            <p>
+                From SuccessFactors, the document is transferred to OpenText
+                through the existing standard document integration.
+            </p>
+
+        </section>
+
+
+        <!-- QUARANTINE -->
+        <section class="section">
+
+            <div class="eyebrow">08. Error Handling</div>
+
+            <h2>Configurable Quarantine Strategy</h2>
+
+            <p>
+                A key challenge was controlling repeated processing failures.
+            </p>
+
+            <p>
+                Because eligible SuccessFactors workflows are checked
+                periodically, a workflow experiencing an error could otherwise
+                be selected and processed again on every integration execution.
+                This could generate repeated failures and unnecessary
+                error notifications.
+            </p>
+
+            <p>
+                To address this, I implemented a configurable quarantine
+                mechanism using SAP CPI Data Store.
+            </p>
+
+            <p>
+                When a transaction fails, it is placed in quarantine and
+                temporarily excluded from normal processing. The transaction
+                becomes eligible for processing again only after the configured
+                quarantine period.
+            </p>
+
+            <p>
+                The current quarantine period is 24 hours, but the duration
+                can be adjusted without modifying the integration flow.
+            </p>
+
+        </section>
+
+
+        <!-- WHY QUARANTINE -->
+        <section class="section">
+
+            <div class="eyebrow">09. Operational Resilience</div>
+
+            <h2>Reducing Repeated Errors</h2>
+
+            <div class="challenge-grid">
+
+                <article>
+                    <h3>Without Quarantine</h3>
+
+                    <p>
+                        A failed workflow could be selected again during every
+                        scheduled integration run, causing the same error to
+                        be processed repeatedly and generating unnecessary
+                        notifications.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>With Quarantine</h3>
+
+                    <p>
+                        Failed transactions are temporarily persisted and
+                        excluded from normal processing, allowing time for
+                        the underlying issue to be resolved before another
+                        processing attempt.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- TECHNICAL FEATURES -->
+        <section class="section">
+
+            <div class="eyebrow">10. Technical Highlights</div>
+
+            <h2>Key Technical Features</h2>
+
+            <div class="value-grid">
+
+                <article>
+                    <h3>Multi-Agreement Processing</h3>
+
+                    <p>
+                        Support for more than 10 agreement and addendum types
+                        with different business rules, data structures and
+                        required variables.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Azure Service Bus Integration</h3>
+
+                    <p>
+                        Asynchronous processing of agreement status messages
+                        and downstream actions using Azure Service Bus Queues.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>OData Orchestration</h3>
+
+                    <p>
+                        Retrieval and consolidation of employee, job and
+                        workflow information from SAP SuccessFactors.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Dynamic Business Logic</h3>
+
+                    <p>
+                        Agreement-specific processing according to the
+                        requirements of each contractual document type.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Configurable Quarantine</h3>
+
+                    <p>
+                        Data Store-based mechanism used to temporarily isolate
+                        failed transactions before allowing reprocessing.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Error Notification Optimization</h3>
+
+                    <p>
+                        Prevention of repeated error notifications caused by
+                        continuously reprocessing the same unresolved workflow.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Document Handling</h3>
+
+                    <p>
+                        Processing of finalized agreement documents for storage
+                        in SAP SuccessFactors and downstream transfer to OpenText.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Workflow Integration</h3>
+
+                    <p>
+                        Coordination of agreement status with SuccessFactors
+                        workflow continuation and cancellation logic.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- TECHNOLOGIES -->
+        <section class="section">
+
+            <div class="eyebrow">11. Technologies</div>
+
+            <h2>Technology Stack</h2>
+
+            <div class="project-tags">
+                <span>SAP Integration Suite</span>
+                <span>Cloud Integration</span>
+                <span>SAP SuccessFactors</span>
+                <span>Azure Service Bus</span>
+                <span>Icertis</span>
+                <span>OpenText</span>
+                <span>REST APIs</span>
+                <span>OData</span>
+                <span>Data Store</span>
+            </div>
+
+        </section>
+
+
+        <!-- BACK -->
+        <section class="section">
+
+            <a href="../index.html#projects" class="text-link">
+                ← Back to Projects
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

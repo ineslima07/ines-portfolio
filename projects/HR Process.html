@@ -242,7 +242,7 @@
         <!-- COMPOUND EMPLOYEE -->
         <section class="section">
 
-            <div class="eyebrow">04. Compound Employee</div>
+            <div class="eyebrow">04. Compound Employee API</div>
 
             <h2>Current vs Previous Record Comparison</h2>
 
@@ -253,38 +253,31 @@
             </p>
 
             <p>
-                SAP CPI retrieves the employee information and compares the
-                current record with the previous record to determine whether
-                the specific data relevant to the notification has actually
-                changed.
+               SAP CPI retrieves the employee information and compares the current record with the previous record to determine whether the specific field associated with each notification branch has changed.
             </p>
 
             <div class="challenge-grid">
 
                 <article>
-                    <h3>Relevant Change Detected</h3>
+                    <h3>Expected Field Change Detected</h3>
 
                     <p>
-                        When the comparison identifies a relevant change, the
-                        integration continues processing and prepares the
-                        corresponding downstream notification.
+                        For each processing branch, SAP CPI checks the corresponding field, such as Preferred Name or Cost Center. If that field has changed, the integration continues processing and sends the notification associated with that branch.
                     </p>
                 </article>
 
                 <article>
-                    <h3>No Relevant Change</h3>
+                    <h3>No Expected Field Change</h3>
 
                     <p>
-                        When no relevant change is detected, the integration
-                        ends and no notification is generated.
+                        If the field associated with the branch has not changed, processing for that branch ends and no notification is generated.
                     </p>
                 </article>
 
             </div>
 
             <p>
-                This approach prevents unrelated employee modifications from
-                incorrectly triggering Name Change or Transfer notifications.
+               This approach ensures that information is sent only when the specific field being monitored has actually changed.
             </p>
 
         </section>
@@ -380,7 +373,7 @@
                 <span>Cloud Integration</span>
                 <span>SAP SuccessFactors</span>
                 <span>Employee Central</span>
-                <span>Compound Employee</span>
+                <span>Compound Employee API</span>
                 <span>OData</span>
                 <span>Integration Events</span>
             </div>

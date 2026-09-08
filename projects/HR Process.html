@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Lifecycle Notifications Integration | Inês Lima</title>
+
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <main>
+
+        <!-- PROJECT HERO -->
+        <section class="section project-case-hero">
+
+            <a href="../index.html#projects" class="text-link">
+                ← Back to Projects
+            </a>
+
+            <div class="eyebrow">SAP CPI CASE STUDY</div>
+
+            <h1>Employee Lifecycle Notifications Integration</h1>
+
+            <p>
+                SAP CPI integration supporting automated employee lifecycle
+                notifications from SAP SuccessFactors Employee Central to
+                downstream IT and logistics processes.
+            </p>
+
+            <div class="project-tags">
+                <span>SAP CPI</span>
+                <span>SAP SuccessFactors</span>
+                <span>Employee Central</span>
+                <span>Compound Employee</span>
+                <span>OData</span>
+                <span>Integration Events</span>
+            </div>
+
+        </section>
+
+
+        <!-- OVERVIEW -->
+        <section class="section">
+
+            <div class="eyebrow">01. Overview</div>
+
+            <h2>Project Overview</h2>
+
+            <p>
+                This project involved the development of an SAP CPI integration
+                to process employee lifecycle notifications from SAP SuccessFactors
+                Employee Central.
+            </p>
+
+            <p>
+                The solution supports multiple HR scenarios, including employee
+                arrivals, departures, preferred name changes and organizational
+                transfers.
+            </p>
+
+            <p>
+                Different processing mechanisms are used depending on the type
+                of employee change. Arrival and Departure notifications are
+                event-driven and include specific handling for retroactive
+                employee changes, while Name Change and Transfer scenarios are
+                identified through employee data changes based on
+                lastModifiedDateTime.
+            </p>
+
+            <p>
+                SAP CPI retrieves and evaluates the required employee information
+                from SuccessFactors, applies the corresponding business rules
+                and determines whether a notification should be sent to the
+                downstream system.
+            </p>
+
+        </section>
+
+
+        <!-- NOTIFICATION TYPES -->
+        <section class="section">
+
+            <div class="eyebrow">02. Notification Types</div>
+
+            <h2>Employee Lifecycle Events</h2>
+
+            <p>
+                The integration processes four main employee lifecycle
+                notification types.
+            </p>
+
+            <div class="value-grid">
+
+                <article>
+                    <h3>Arrival — A01</h3>
+
+                    <p>
+                        An Arrival notification is generated when a new employee
+                        joins the organization or when a former employee is
+                        rehired.
+                    </p>
+
+                    <p>
+                        The purpose is to allow downstream IT and logistics
+                        processes to prepare the required access and workplace
+                        activities before the employee's first working day.
+                    </p>
+
+                    <p>
+                        The integration also handles retroactive employee
+                        scenarios to ensure that relevant arrivals registered
+                        or modified retrospectively can still be processed.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Departure — A02</h3>
+
+                    <p>
+                        A Departure notification is generated when an active
+                        employee leaves the organization or when a planned
+                        employee will no longer join.
+                    </p>
+
+                    <p>
+                        The notification supports downstream access revocation
+                        and offboarding activities.
+                    </p>
+
+                    <p>
+                        Retroactive employee changes are also handled so that
+                        relevant departure events are not missed when HR
+                        information is registered or modified retrospectively.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Name Change — A03</h3>
+
+                    <p>
+                        A Name Change notification is generated when an
+                        employee's preferred name changes.
+                    </p>
+
+                    <p>
+                        Changes to the legal name alone do not trigger a
+                        notification when the preferred name remains unchanged.
+                    </p>
+
+                    <p>
+                        SAP CPI identifies potentially relevant records using
+                        lastModifiedDateTime and then compares the current and
+                        previous employee records using Compound Employee.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Transfer — A04</h3>
+
+                    <p>
+                        A Transfer notification is generated when an employee
+                        changes organizational assignment, such as team,
+                        department, division, location, company or other
+                        relevant organizational movements.
+                    </p>
+
+                    <p>
+                        SAP CPI identifies potentially modified employees using
+                        lastModifiedDateTime and compares the current and
+                        previous employee records to determine whether the
+                        relevant organizational information has changed.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROCESSING STRATEGY -->
+        <section class="section">
+
+            <div class="eyebrow">03. Processing Strategy</div>
+
+            <h2>Event-Driven & Change-Based Processing</h2>
+
+            <div class="challenge-grid">
+
+                <article>
+                    <h3>Arrival & Departure</h3>
+
+                    <p>
+                        Arrival and Departure are processed based on events
+                        generated from SAP SuccessFactors.
+                    </p>
+
+                    <p>
+                        The integration also includes logic for retroactive
+                        employee changes, ensuring that relevant onboarding and
+                        offboarding scenarios can still be processed when
+                        employee information is registered or modified
+                        retrospectively.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Name Change & Transfer</h3>
+
+                    <p>
+                        Name Change and Transfer follow a change-detection
+                        approach.
+                    </p>
+
+                    <p>
+                        lastModifiedDateTime is used to identify employees with
+                        potentially relevant modifications. SAP CPI then
+                        retrieves the employee information through Compound
+                        Employee and compares the current record with the
+                        previous record.
+                    </p>
+
+                    <p>
+                        If a relevant change is detected, processing continues.
+                        If no relevant change is found, the integration
+                        terminates without generating a notification.
+                    </p>
+                </article>
+
+            </div>
+
+            <div class="process-line">
+                Modified Employee → Compound Employee → Compare Current vs Previous → Relevant Change? → Continue / End
+            </div>
+
+        </section>
+
+
+        <!-- COMPOUND EMPLOYEE -->
+        <section class="section">
+
+            <div class="eyebrow">04. Compound Employee</div>
+
+            <h2>Current vs Previous Record Comparison</h2>
+
+            <p>
+                Compound Employee plays an important role in the
+                change-detection logic used for Name Change and Transfer
+                processing.
+            </p>
+
+            <p>
+                SAP CPI retrieves the employee information and compares the
+                current record with the previous record to determine whether
+                the specific data relevant to the notification has actually
+                changed.
+            </p>
+
+            <div class="challenge-grid">
+
+                <article>
+                    <h3>Relevant Change Detected</h3>
+
+                    <p>
+                        When the comparison identifies a relevant change, the
+                        integration continues processing and prepares the
+                        corresponding downstream notification.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>No Relevant Change</h3>
+
+                    <p>
+                        When no relevant change is detected, the integration
+                        ends and no notification is generated.
+                    </p>
+                </article>
+
+            </div>
+
+            <p>
+                This approach prevents unrelated employee modifications from
+                incorrectly triggering Name Change or Transfer notifications.
+            </p>
+
+        </section>
+
+
+        <!-- TECHNICAL FEATURES -->
+        <section class="section">
+
+            <div class="eyebrow">05. Technical Highlights</div>
+
+            <h2>Key Technical Features</h2>
+
+            <div class="value-grid">
+
+                <article>
+                    <h3>Event-Driven Processing</h3>
+
+                    <p>
+                        Processing of Arrival and Departure scenarios based on
+                        SuccessFactors events.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Retroactive Employee Handling</h3>
+
+                    <p>
+                        Additional processing logic for Arrival and Departure
+                        scenarios involving employee changes registered
+                        retrospectively.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>lastModifiedDateTime Detection</h3>
+
+                    <p>
+                        Identification of potentially modified employees for
+                        Name Change and Transfer processing.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Compound Employee Comparison</h3>
+
+                    <p>
+                        Comparison between current and previous employee records
+                        to determine whether a relevant change actually occurred.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Conditional Processing</h3>
+
+                    <p>
+                        Continuation of the integration only when the comparison
+                        identifies a relevant business change.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Multiple Notification Types</h3>
+
+                    <p>
+                        Support for Arrival, Departure, Name Change and Transfer
+                        scenarios within the same integration solution.
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Selective Notification Processing</h3>
+
+                    <p>
+                        Prevention of unnecessary downstream notifications
+                        caused by unrelated employee data modifications.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- TECHNOLOGIES -->
+        <section class="section">
+
+            <div class="eyebrow">06. Technologies</div>
+
+            <h2>Technology Stack</h2>
+
+            <div class="project-tags">
+                <span>SAP Integration Suite</span>
+                <span>Cloud Integration</span>
+                <span>SAP SuccessFactors</span>
+                <span>Employee Central</span>
+                <span>Compound Employee</span>
+                <span>OData</span>
+                <span>Integration Events</span>
+            </div>
+
+        </section>
+
+
+        <!-- BACK -->
+        <section class="section">
+
+            <a href="../index.html#projects" class="text-link">
+                ← Back to Projects
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

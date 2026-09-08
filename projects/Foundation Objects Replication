@@ -1,0 +1,491 @@
+<section class="case-study">
+
+    <header class="case-study-header">
+        <p class="case-study-label">SAP CPI CASE STUDY</p>
+
+        <h1>Foundation Objects Replication</h1>
+
+        <p>
+            SAP CPI integration synchronizing organizational Foundation Objects
+            into SAP SuccessFactors Employee Central through secure SFTP file
+            processing, file decryption, Delta and Full Load modes,
+            dependency-aware processing and execution reporting.
+        </p>
+
+        <div class="technology-tags">
+            <span>SAP CPI</span>
+            <span>SAP SuccessFactors</span>
+            <span>SFTP</span>
+            <span>OData</span>
+            <span>File Decryption</span>
+            <span>Foundation Objects</span>
+            <span>Delta Load</span>
+            <span>Full Load</span>
+            <span>Reporting</span>
+        </div>
+    </header>
+
+    <section class="case-study-section">
+        <span class="section-number">01. Overview</span>
+
+        <h2>Project Overview</h2>
+
+        <p>
+            This project involved the development of a SAP CPI integration to
+            replicate organizational Foundation Objects into SAP SuccessFactors
+            Employee Central.
+        </p>
+
+        <p>
+            The integration processes several organizational objects, including
+            Business Units, Divisions, Departments, Units, Teams and Cost Centers.
+        </p>
+
+        <p>
+            SAP CPI receives an encrypted file through SFTP containing the
+            organizational structure and processes it through a scheduled nightly
+            execution.
+        </p>
+
+        <p>
+            The integration supports both Delta Load and Full Load processing
+            modes and includes additional logic for dependency management,
+            effective-dated processing and execution reporting.
+        </p>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">02. Architecture</span>
+
+        <h2>Integration Architecture</h2>
+
+        <p>
+            SAP CPI acts as the processing and orchestration layer responsible
+            for receiving, decrypting, validating and synchronizing organizational
+            data with SAP SuccessFactors Employee Central.
+        </p>
+
+        <p>
+            The encrypted file is received through SFTP. SAP CPI decrypts the
+            file, reads the organizational records and applies the required
+            processing logic before communicating with SuccessFactors through
+            OData APIs.
+        </p>
+
+        <p>
+            At the end of the execution, CPI generates a processing report
+            containing the result of the processed records.
+        </p>
+
+        <div class="architecture-flow">
+
+            <div class="architecture-item">
+                <h3>SFTP</h3>
+                <p>Encrypted Organizational File</p>
+            </div>
+
+            <div class="architecture-arrow">↓</div>
+
+            <div class="architecture-item">
+                <h3>SAP CPI</h3>
+                <p>
+                    Decryption · Filtering · Dependency Management · Validation
+                </p>
+            </div>
+
+            <div class="architecture-arrow">↓</div>
+
+            <div class="architecture-item">
+                <h3>SAP SuccessFactors EC</h3>
+                <p>Foundation Object OData Processing</p>
+            </div>
+
+            <div class="architecture-arrow">↓</div>
+
+            <div class="architecture-item">
+                <h3>SAP CPI</h3>
+                <p>Execution Report · Success / Error Details</p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">03. Foundation Object Scope</span>
+
+        <h2>Organizational Data Replication</h2>
+
+        <p>
+            The integration supports the replication of the Foundation Objects
+            required to maintain the organizational structure in SAP SuccessFactors
+            Employee Central.
+        </p>
+
+        <p>The objects processed include:</p>
+
+        <ul>
+            <li>Business Unit</li>
+            <li>Division</li>
+            <li>Department</li>
+            <li>Unit</li>
+            <li>Team</li>
+            <li>Cost Center</li>
+        </ul>
+
+        <p>
+            Cost Center processing also includes the required linkage with Teams.
+        </p>
+
+        <p>
+            Both active and recently inactive Foundation Object records can be
+            processed by the integration.
+        </p>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">04. Secure File Processing</span>
+
+        <h2>SFTP &amp; File Decryption</h2>
+
+        <p>
+            SAP CPI receives the organizational data file through SFTP as part
+            of a scheduled nightly process.
+        </p>
+
+        <p>
+            The received file is encrypted, so one of the first processing steps
+            in CPI is to decrypt the file before its contents can be validated
+            and transformed.
+        </p>
+
+        <p>
+            Once decrypted, SAP CPI parses the file and extracts the Foundation
+            Object records required for processing.
+        </p>
+
+        <p>
+            Each record contains a <code>DELTA</code> attribute indicating
+            whether it should be considered a delta record.
+        </p>
+
+        <p>
+            The file also contains metadata that can be used for traceability
+            and investigation.
+        </p>
+
+        <div class="process-flow">
+            SFTP → Receive Encrypted File → Decrypt → Parse File → Process Records
+        </div>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">05. Load Strategy</span>
+
+        <h2>Delta Load &amp; Full Load Processing</h2>
+
+        <p>
+            The integration supports two execution modes: Delta Load and Full Load.
+        </p>
+
+        <div class="challenge-grid">
+
+            <article>
+                <h3>Delta Load</h3>
+
+                <p>
+                    During Delta Load processing, SAP CPI reads the complete
+                    incoming file but retains only records where
+                    <code>DELTA = yes</code>.
+                </p>
+
+                <p>
+                    Records where <code>DELTA = no</code> are excluded from
+                    further delta processing.
+                </p>
+
+                <p>
+                    The remaining records continue through the validation logic
+                    before being sent to SuccessFactors.
+                </p>
+            </article>
+
+            <article>
+                <h3>Full Load</h3>
+
+                <p>
+                    During Full Load processing, the DELTA filter is bypassed.
+                </p>
+
+                <p>
+                    SAP CPI processes all records contained in the file,
+                    regardless of whether the DELTA attribute is
+                    <code>yes</code> or <code>no</code>.
+                </p>
+
+                <p>
+                    This mode can be used for reconciliation, recovery or
+                    complete synchronization scenarios.
+                </p>
+            </article>
+
+        </div>
+
+        <div class="process-flow">
+            Delta Load: File → Filter DELTA = yes → Process Relevant Records
+        </div>
+
+        <div class="process-flow">
+            Full Load: File → No DELTA Filtering → Process All Records
+        </div>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">06. Dependency Management</span>
+
+        <h2>Parent-Child Processing Order</h2>
+
+        <p>
+            Foundation Objects have dependencies between each other.
+        </p>
+
+        <p>
+            Some child objects reference parent objects that must already exist
+            in SuccessFactors before the dependent records can be successfully
+            created or updated.
+        </p>
+
+        <p>
+            SAP CPI therefore processes the Foundation Objects in a controlled
+            sequence.
+        </p>
+
+        <p>
+            Parent objects are processed before their child objects, ensuring
+            that the required references exist before dependent records are sent
+            to SuccessFactors.
+        </p>
+
+        <p>
+            This prevents referential errors and ensures that the organizational
+            hierarchy is created in the correct order.
+        </p>
+
+        <div class="process-flow">
+            Parent Object → Child Object → Dependent Object
+        </div>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">07. Effective-Dated Processing</span>
+
+        <h2>Foundation Object Version Management</h2>
+
+        <p>
+            Foundation Objects in SAP SuccessFactors are effective-dated.
+        </p>
+
+        <p>
+            SAP CPI handles the effective date information required to create
+            the correct organizational versions in Employee Central.
+        </p>
+
+        <p>
+            The integration also preserves existing end dates where required
+            and avoids unintentionally affecting future-dated records already
+            present in the system.
+        </p>
+
+        <p>
+            This helps maintain the consistency of both historical and future
+            organizational data.
+        </p>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">08. Execution Reporting</span>
+
+        <h2>Detailed Processing Report</h2>
+
+        <p>
+            The integration processes a high volume of Foundation Object records,
+            which can make manual investigation difficult.
+        </p>
+
+        <p>
+            To simplify monitoring and troubleshooting, SAP CPI generates a
+            processing report at the end of each execution.
+        </p>
+
+        <p>
+            The report provides the result of the records processed during the
+            integration.
+        </p>
+
+        <div class="challenge-grid">
+
+            <article>
+                <h3>Successful Processing</h3>
+
+                <p>
+                    If all records are processed correctly, the report clearly
+                    indicates that the load completed successfully.
+                </p>
+            </article>
+
+            <article>
+                <h3>Processing Errors</h3>
+
+                <p>
+                    If one or more records fail, the report identifies the
+                    affected records and includes the corresponding error details.
+                </p>
+            </article>
+
+        </div>
+
+        <p>
+            This makes it easier to understand the execution result without
+            manually investigating a large number of individual transactions.
+        </p>
+
+        <div class="process-flow">
+            Process Records → Collect Results → Generate Report → Success / Error Details
+        </div>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">09. Error Handling</span>
+
+        <h2>Recovery and Reprocessing</h2>
+
+        <p>
+            The integration supports reprocessing when errors occur during the
+            synchronization.
+        </p>
+
+        <p>
+            Depending on the issue, the file can be processed again after the
+            underlying problem has been corrected.
+        </p>
+
+        <p>
+            The generated processing report helps identify which records failed
+            and why, reducing the time required to investigate and resolve
+            processing issues.
+        </p>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">10. Technical Highlights</span>
+
+        <h2>Key Technical Features</h2>
+
+        <div class="challenge-grid">
+
+            <article>
+                <h3>Secure File Processing</h3>
+                <p>
+                    Encrypted files are received through SFTP and decrypted
+                    within SAP CPI before processing.
+                </p>
+            </article>
+
+            <article>
+                <h3>Delta &amp; Full Load Processing</h3>
+                <p>
+                    Support for both incremental and complete organizational
+                    synchronization.
+                </p>
+            </article>
+
+            <article>
+                <h3>DELTA Filtering</h3>
+                <p>
+                    During Delta Load, CPI processes only records where
+                    <code>DELTA = yes</code>.
+                </p>
+            </article>
+
+            <article>
+                <h3>Dependency Management</h3>
+                <p>
+                    Foundation Objects are processed in the required parent-child
+                    sequence.
+                </p>
+            </article>
+
+            <article>
+                <h3>OData Processing</h3>
+                <p>
+                    SAP SuccessFactors OData APIs are used to retrieve and update
+                    Foundation Object data.
+                </p>
+            </article>
+
+            <article>
+                <h3>Effective-Dated Processing</h3>
+                <p>
+                    Controlled handling of effective-dated Foundation Object
+                    versions.
+                </p>
+            </article>
+
+            <article>
+                <h3>Execution Reporting</h3>
+                <p>
+                    A consolidated report is generated at the end of each
+                    execution.
+                </p>
+            </article>
+
+            <article>
+                <h3>Error Visibility</h3>
+                <p>
+                    Failed records and their corresponding error details are
+                    clearly presented in the report.
+                </p>
+            </article>
+
+        </div>
+    </section>
+
+
+    <section class="case-study-section">
+        <span class="section-number">11. Technologies</span>
+
+        <h2>Technology Stack</h2>
+
+        <div class="technology-tags">
+            <span>SAP Integration Suite</span>
+            <span>Cloud Integration</span>
+            <span>SAP SuccessFactors Employee Central</span>
+            <span>SFTP</span>
+            <span>OData</span>
+            <span>File Decryption</span>
+            <span>Foundation Objects</span>
+            <span>Delta Load</span>
+            <span>Full Load</span>
+            <span>Effective Dating</span>
+            <span>Dependency Management</span>
+            <span>Reporting</span>
+        </div>
+    </section>
+
+
+    <a
+        href="https://ineslima07.github.io/ines-portfolio/index.html#projects"
+        class="back-link"
+    >
+        ← Back to Projects
+    </a>
+
+</section>
